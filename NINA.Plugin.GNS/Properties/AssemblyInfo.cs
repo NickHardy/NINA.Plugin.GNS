@@ -26,8 +26,8 @@ using System.Runtime.InteropServices;
 
 //The assembly versioning
 //Should be incremented for each new release build of a plugin
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.1.0.1")]
+[assembly: AssemblyFileVersion("1.1.0.1")]
 
 //The minimum Version of N.I.N.A. that this plugin is compatible with
 [assembly: AssemblyMetadata("MinimumApplicationVersion", "2.0.0.2001")]
@@ -39,25 +39,22 @@ using System.Runtime.InteropServices;
 //The url to the license
 [assembly: AssemblyMetadata("LicenseURL", "https://www.mozilla.org/en-US/MPL/2.0/")]
 //The repository where your pluggin is hosted
-[assembly: AssemblyMetadata("Repository", "https://bitbucket.org/NickHardy/nina/src/plugins/NINA.Plugin.GNS/")]
+[assembly: AssemblyMetadata("Repository", "https://bitbucket.org/NickHardy/nina.plugin.gns/src/main/")]
 
 //Common tags that quickly describe your plugin
 [assembly: AssemblyMetadata("Tags", "GNS,Sequencer")]
 
 //The featured logo that will be displayed in the plugin list next to the name
-[assembly: AssemblyMetadata("FeaturedImageURL", "https://bitbucket.org/NickHardy/nina/downloads/gns-ancho-min-300x300.png")]
+[assembly: AssemblyMetadata("FeaturedImageURL", "https://bitbucket.org/NickHardy/nina.plugin.gns/downloads/gns-ancho-min-300x300.png")]
 //An example screenshot of your plugin in action
-[assembly: AssemblyMetadata("ScreenshotURL", "https://bitbucket.org/NickHardy/nina/downloads/GNS-Plugin-1.jpg")]
+[assembly: AssemblyMetadata("ScreenshotURL", "https://bitbucket.org/NickHardy/nina.plugin.gns/downloads/GNS-Plugin-1.jpg")]
 //An additional example screenshot of your plugin in action
-[assembly: AssemblyMetadata("AltScreenshotURL", "https://bitbucket.org/NickHardy/nina/downloads/GNS-Plugin-2.jpg")]
+[assembly: AssemblyMetadata("AltScreenshotURL", "")]
 [assembly: AssemblyMetadata("LongDescription", @"N.I.N.A. - Nighttime Imaging 'N' Astronomy GNS Plugin
 
 The good night system by LunaticoAstro is a monitoring system that let's you sleep at night.
 
 https://lunaticoastro.com/gns-observatory-monitoring/
-
-Please report any issues in the Nina discord server.
-https://discord.gg/rWRbVbw and tag me: @NickHolland#5257
 
 ! These instructions will not pause the sequencer. Timeouts are only for the GNS server. When a timeout is reached GNS will trigger an alarm.
 
@@ -70,4 +67,8 @@ GNS Message - Send a message to the GNS server. Enter your own message and timeo
 GNS Pause session - Pause the GNS session. (For instance if you run a script and don't know how long it could take)
 GNS Alert session - Send a session Alert. The GNS server will send an alert to your phone. You can enter your own message. Usually followed by an alert box in Nina or a script.
 GNS End session - End the current GNS session.
-")]
+
+Please report any issues in the [Nina discord server](https://discord.gg/rWRbVbw) and tag me: @NickHolland#5257 
+
+If you would like to buy me a whisky: [click here](https://www.paypal.com/paypalme/NickHardyHolland)
+")] 
