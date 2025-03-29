@@ -78,6 +78,7 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         /// </remarks>
         [ImportingConstructor]
         public PluginGNSTrigger() : base() {
+            Timeout = 300;
         }
 
         /// <summary>
@@ -89,6 +90,9 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         [JsonProperty]
         public string Text { get; set; }
 
+        [JsonProperty]
+        public int Timeout { get; set; }
+
         /// <summary>
         /// The core logic when the sequence item is running resides here
         /// Add whatever action is necessary
@@ -99,7 +103,7 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         public override Task Execute(ISequenceContainer context, IProgress<ApplicationStatus> progress, CancellationToken token) {
             // Add logic to run the item here
             // Logger.Debug($"GNS: Trigger Category: {this.nextItem.Category} Name: {this.nextItem.Name}. Estimated Duration: {this.nextItem.GetEstimatedDuration()}");
-            this.GNSUtil.sendMessage(Convert.ToInt32(this.nextItem.GetEstimatedDuration().TotalSeconds) + 300, message);
+            this.GNSUtil.sendMessage(Convert.ToInt32(this.nextItem.GetEstimatedDuration().TotalSeconds) + Timeout, message);
             return Task.CompletedTask;
         }
 
@@ -139,7 +143,8 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
                 Name = Name,
                 Category = Category,
                 Description = Description,
-                GNSUtil = GNSUtil
+                GNSUtil = GNSUtil,
+                Timeout = Timeout
             };
         }
 

@@ -44,41 +44,16 @@ namespace NINA.Plugin.GNS.Sequencer.SequenceItem {
     public class PluginGNSMessageItem : NINA.Sequencer.SequenceItem.SequenceItem {
         private GNSUtility GNSUtil;
 
-        /// <summary>
-        /// The constructor marked with [ImportingConstructor] will be used to import and construct the object
-        /// General device interfaces can be added to the constructor and will be automatically populated on import
-        /// </summary>
-        /// <remarks>
-        /// Available interfaces to be injected:
-        ///     - IProfileService,
-        ///     - ICameraMediator,
-        ///     - ITelescopeMediator,
-        ///     - IFocuserMediator,
-        ///     - IFilterWheelMediator,
-        ///     - IGuiderMediator,
-        ///     - IRotatorMediator,
-        ///     - IFlatDeviceMediator,
-        ///     - IWeatherDataMediator,
-        ///     - IImagingMediator,
-        ///     - IApplicationStatusMediator,
-        ///     - INighttimeCalculator,
-        ///     - IPlanetariumFactory,
-        ///     - IImageHistoryVM,
-        ///     - IDeepSkyObjectSearchVM,
-        ///     - IDomeMediator,
-        ///     - IImageSaveMediator,
-        ///     - ISwitchMediator,
-        ///     - IList of IDateTimeProvider
-        /// </remarks>
         [ImportingConstructor]
         public PluginGNSMessageItem() {
+            Timeout = 300;
         }
 
         [JsonProperty]
         public string Text { get; set; }
 
         [JsonProperty]
-        public int Timeout { get; set; } = 300;
+        public int Timeout { get; set; }
 
         private IList<string> issues = new List<string>();
 

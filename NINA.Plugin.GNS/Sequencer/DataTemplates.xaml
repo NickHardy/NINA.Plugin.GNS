@@ -151,26 +151,48 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type trigger:PluginGNSMeridianFlipTrigger}">
         <nina:SequenceBlockView DataContext="{Binding}">
-            <nina:SequenceBlockView.SequenceItemProgressContent>
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal"
-                    Visibility="{Binding EarliestFlipTime, Converter={StaticResource DateTimeZeroToVisibilityCollapsedConverter}}">
-                    <TextBlock VerticalAlignment="Center" Text="{ns:Loc LblFlipTime}" />
-                    <TextBlock
-                        Margin="5,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding EarliestFlipTime, StringFormat='{}{0:HH:mm:ss}'}" />
-                    <TextBlock
-                        Margin="5,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="-" />
-                    <TextBlock
-                        Margin="5,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="{Binding LatestFlipTime, StringFormat='{}{0:HH:mm:ss}'}" />
+            <nina:SequenceBlockView.SequenceItemContent>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel 
+                        HorizontalAlignment="Right" 
+                        Orientation="Horizontal">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="Timeout" />
+                        <TextBox
+                            MinWidth="40"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            TextAlignment="Right">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay" Path="Timeout">
+                                    <Binding.ValidationRules>
+                                        <rules:GreaterThanZeroRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+                    <StackPanel
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Visibility="{Binding EarliestFlipTime, Converter={StaticResource DateTimeZeroToVisibilityCollapsedConverter}}">
+                        <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{ns:Loc LblFlipTime}" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding EarliestFlipTime, StringFormat='{}{0:HH:mm:ss}'}" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="-" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding LatestFlipTime, StringFormat='{}{0:HH:mm:ss}'}" />
+                    </StackPanel>
                 </StackPanel>
-            </nina:SequenceBlockView.SequenceItemProgressContent>
+            </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>
     <DataTemplate x:Key="NINA.Plugin.GNS.Sequencer.Trigger.PluginGNSTrigger_Mini">
@@ -186,7 +208,22 @@
         <nina:SequenceBlockView DataContext="{Binding}">
             <nina:SequenceBlockView.SequenceItemContent>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="Timeout" />
+                    <TextBox
+                        MinWidth="40"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        TextAlignment="Right">
+                        <TextBox.Text>
+                            <Binding Mode="TwoWay" Path="Timeout">
+                                <Binding.ValidationRules>
+                                    <rules:GreaterThanZeroRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
