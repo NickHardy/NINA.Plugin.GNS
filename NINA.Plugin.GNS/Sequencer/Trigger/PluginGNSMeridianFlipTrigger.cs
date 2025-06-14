@@ -74,6 +74,7 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
             this.cameraMediator = cameraMediator;
             this.focuserMediator = focuserMediator;
             this.meridianFlipVMFactory = meridianFlipVMFactory;
+            Timeout = 900;
         }
 
         protected PluginGNSMeridianFlipTrigger(PluginGNSMeridianFlipTrigger cloneMe) : this(cloneMe.profileService, cloneMe.cameraMediator, cloneMe.telescopeMediator, cloneMe.focuserMediator, cloneMe.applicationStatusMediator, cloneMe.meridianFlipVMFactory) {
@@ -81,8 +82,13 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         }
 
         public override object Clone() {
-            return new PluginGNSMeridianFlipTrigger(this);
+            var clone = new PluginGNSMeridianFlipTrigger(this);
+            clone.Timeout = this.Timeout;
+            return clone;
         }
+
+        [JsonProperty]
+        public int Timeout { get; set; }
 
         /// <summary>
         /// The core logic when the sequence item is running resides here
@@ -93,7 +99,7 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         /// <returns></returns>
         public override Task Execute(ISequenceContainer context, IProgress<ApplicationStatus> progress, CancellationToken token) {
             var guiderSettings = profileService.ActiveProfile.GuiderSettings;
-            GNSUtil.sendMessage(Convert.ToInt32(CalculateMinimumTimeRemaining().TotalSeconds) + guiderSettings.SettleTimeout + 900, "Meridian flip triggered.");
+            GNSUtil.sendMessage(Convert.ToInt32(CalculateMinimumTimeRemaining().TotalSeconds) + guiderSettings.SettleTimeout + Timeout, "Meridian flip triggered.");
             return MeridianFlipTrigger.Execute(context, progress, token);
         }
 
@@ -144,20 +150,6 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
 
             return TimeSpan.FromHours(telescopeInfo.TimeToMeridianFlip);
         }
-
-        /// <summary>
-        /// When items are put into the sequence via the factory, the factory will call the clone method. Make sure all the relevant fields are cloned with the object.
-        /// </summary>
-        /// <returns></returns>
-/*        public override object Clone() {
-            return new PluginGNSMeridianFlipTrigger(profileService, cameraMediator, telescopeMediator, guiderMediator, focuserMediator, imagingMediator, domeMediator, domeFollower, applicationStatusMediator, filterWheelMediator, history) {
-                Icon = Icon,
-                Name = Name,
-                Category = Category,
-                Description = Description,
-                GNSUtil = GNSUtil
-            };
-        }*/
 
         public bool Validate() {
             var i = new List<string>();
