@@ -3,15 +3,15 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // The name of your plugin
-[assembly: AssemblyTitle("GNS Plugin")]
+//[assembly: AssemblyTitle("GNS Plugin")]
 // A short description of your plugin
 [assembly: AssemblyDescription("A plugin for using GoodNightSystem by Lunatico")]
-[assembly: AssemblyConfiguration("")]
+//[assembly: AssemblyConfiguration("")]
 
 //Your name
-[assembly: AssemblyCompany("Nick Hardy")]
+//[assembly: AssemblyCompany("Nick Hardy")]
 //The product name that this plugin is part of
-[assembly: AssemblyProduct("NINA.Plugin.GNS")]
+//[assembly: AssemblyProduct("NINA.Plugin.GNS")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -26,8 +26,8 @@ using System.Runtime.InteropServices;
 
 //The assembly versioning
 //Should be incremented for each new release build of a plugin
-[assembly: AssemblyVersion("2.0.0.1")]
-[assembly: AssemblyFileVersion("2.0.0.1")]
+//[assembly: AssemblyVersion("2.0.0.1")]
+//[assembly: AssemblyFileVersion("2.0.0.1")]
 
 //The minimum Version of N.I.N.A. that this plugin is compatible with
 [assembly: AssemblyMetadata("MinimumApplicationVersion", "3.0.0.1001")]
@@ -39,15 +39,15 @@ using System.Runtime.InteropServices;
 //The url to the license
 [assembly: AssemblyMetadata("LicenseURL", "https://www.mozilla.org/en-US/MPL/2.0/")]
 //The repository where your pluggin is hosted
-[assembly: AssemblyMetadata("Repository", "https://bitbucket.org/NickHardy/nina.plugin.gns/src/main/")]
+[assembly: AssemblyMetadata("Repository", "https://github.com/NickHardy/NINA.Plugin.GNS")]
 
 //Common tags that quickly describe your plugin
 [assembly: AssemblyMetadata("Tags", "GNS,Sequencer")]
 
 //The featured logo that will be displayed in the plugin list next to the name
-[assembly: AssemblyMetadata("FeaturedImageURL", "https://bitbucket.org/NickHardy/nina.plugin.gns/downloads/gns-ancho-min-300x300.png")]
+[assembly: AssemblyMetadata("FeaturedImageURL", "https://github.com/NickHardy/NINA.Plugin.GNS/blob/main/NINA.Plugin.GNS/resources/gns-ancho-min-300x300.png?raw=true")]
 //An example screenshot of your plugin in action
-[assembly: AssemblyMetadata("ScreenshotURL", "https://bitbucket.org/NickHardy/nina.plugin.gns/downloads/GNS-Plugin-1.jpg")]
+[assembly: AssemblyMetadata("ScreenshotURL", "https://github.com/NickHardy/NINA.Plugin.GNS/blob/main/NINA.Plugin.GNS/resources/GNS-Plugin-1.jpg?raw=true")]
 //An additional example screenshot of your plugin in action
 [assembly: AssemblyMetadata("AltScreenshotURL", "")]
 [assembly: AssemblyMetadata("LongDescription", @"N.I.N.A. - Nighttime Imaging 'N' Astronomy GNS Plugin
