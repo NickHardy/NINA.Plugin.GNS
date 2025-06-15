@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<Title>GNS Plugin</Title>
-	<Product>NINA.Plugin.GNS</Product>
+	<Product>GNS Plugin</Product>
 	<Company>Nick Hardy</Company>
 	<TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
