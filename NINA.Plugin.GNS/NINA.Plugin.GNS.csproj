@@ -2,7 +2,6 @@
   <PropertyGroup>
 	<Title>GNS Plugin</Title>
 	<Product>GNS Plugin</Product>
-	<AssemblyName>GNS Plugin</AssemblyName>
 	<AssemblyTitle>GNS Plugin</AssemblyTitle>
     <Company>Nick Hardy</Company>
 	<TargetFramework>net8.0-windows</TargetFramework>
