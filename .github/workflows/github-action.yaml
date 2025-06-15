@@ -18,7 +18,7 @@ env:
   PLUGIN_NAME: "GNS Plugin"
   PLUGIN_SLN_NAME: "GNS"
   PLUGIN_DLL_NAME: "NINA.Plugin.GNS"
-  PLUGIN_MANIFEST_PATH: "g\GNS plugin"
+  PLUGIN_MANIFEST_PATH: "g/GNS plugin"
 
 jobs:
   build-and-release:
