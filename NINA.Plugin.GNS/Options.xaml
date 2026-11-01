@@ -12,11 +12,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:NINA.Plugin.GNS">
     <!--  This data template will be displayed in N.I.N.A. on the options->plugin tab with the datacontext of the TestPlugin instance  -->
-    <!--  In order for this datatemplate to be picked correctly, the key has to follow the naming convention of <IPlugin.Name>_Options -->
+    <!--  In order for this datatemplate to be picked correctly, the key has to follow the naming convention of <IPlugin.Name>_Options, where the name is the AssemblyTitle -->
     <!--  Furthermore the Resource Dictionary has to be exported via code behind export attributes  -->
-    <DataTemplate x:Key="NINA.Plugin.GNS.GNSPlugin_Options">
+    <DataTemplate x:Key="GNS Plugin_Options">
         <StackPanel DataContext="{Binding}" Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" />
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <TextBlock
+                    Width="250"
+                    VerticalAlignment="Center"
+                    Text="Send messages on meridian flip"
+                    ToolTip="Send a GNS message when any meridian flip starts and finishes while a GNS session is active. A failed flip sends a session alert." />
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding MeridianFlipMessages}" />
+            </StackPanel>
+            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                <TextBlock
+                    Width="250"
+                    VerticalAlignment="Center"
+                    Text="Meridian flip timeout (s)"
+                    ToolTip="Time allowed for the flip, recentering and any after flip actions, on top of the wait for the meridian and the settle times." />
+                <TextBox
+                    MinWidth="80"
+                    VerticalAlignment="Center"
+                    IsEnabled="{Binding MeridianFlipMessages}"
+                    Text="{Binding MeridianFlipTimeout}" />
+            </StackPanel>
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

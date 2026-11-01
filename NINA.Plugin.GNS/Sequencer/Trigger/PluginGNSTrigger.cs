@@ -24,7 +24,9 @@ using System.Collections.Immutable;
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
+using NINA.Plugin.GNS.Sequencer.SequenceItem;
 using NINA.Plugin.GNS.Sequencer.Utility;
+using NINA.Sequencer.Interfaces.Mediator;
 
 namespace NINA.Plugin.GNS.Sequencer.Trigger {
 
@@ -76,17 +78,21 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         ///     - ISwitchMediator,
         ///     - IList of IDateTimeProvider
         /// </remarks>
+        private ISequenceMediator sequenceMediator;
+
         [ImportingConstructor]
-        public PluginGNSTrigger() : base() {
+        public PluginGNSTrigger(ISequenceMediator sequenceMediator) : base() {
+            this.sequenceMediator = sequenceMediator;
             Timeout = 300;
         }
 
+        public override void SequenceBlockInitialize() {
+            GNSUtility.HookSequenceStart(sequenceMediator);
+        }
+
         /// <summary>
-        /// An example property that can be set from the user interface via the Datatemplate specified in PluginTestItem.Template.xaml
+        /// Optional prefix in front of the instruction name. Expressions like {TargetName} are evaluated for every message
         /// </summary>
-        /// <remarks>
-        /// If the property changes from the code itself, remember to call RaisePropertyChanged() on it for the User Interface to notice the change
-        /// </remarks>
         [JsonProperty]
         public string Text { get; set; }
 
@@ -103,7 +109,8 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         public override Task Execute(ISequenceContainer context, IProgress<ApplicationStatus> progress, CancellationToken token) {
             // Add logic to run the item here
             // Logger.Debug($"GNS: Trigger Category: {this.nextItem.Category} Name: {this.nextItem.Name}. Estimated Duration: {this.nextItem.GetEstimatedDuration()}");
-            this.GNSUtil.sendMessage(Convert.ToInt32(this.nextItem.GetEstimatedDuration().TotalSeconds) + Timeout, message);
+            var prefix = GNSUtility.ExpandText(Text, SymbolBroker, this.nextItem);
+            this.GNSUtil.sendMessage(Convert.ToInt32(this.nextItem.GetEstimatedDuration().TotalSeconds) + Timeout, string.IsNullOrEmpty(prefix) ? message : $"{prefix} - {message}");
             return Task.CompletedTask;
         }
 
@@ -124,7 +131,10 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         }
 
         public override bool ShouldTrigger(ISequenceItem previousItem, ISequenceItem nextItem) {
-            // do something
+            // Don't restart a session that was paused or ended, and don't send a timeout right before the session is paused or ended
+            if (GNSUtility.SessionStopped || nextItem is PluginGNSPauseItem || nextItem is PluginGNSEndItem) {
+                return false;
+            }
             this.nextItem = nextItem;
             if (this.nextItem?.Name != null) {
                 this.message = this.nextItem?.Name;
@@ -137,15 +147,13 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         /// </summary>
         /// <returns></returns>
         public override object Clone() {
-            return new PluginGNSTrigger() {
-                Icon = Icon,
+            var clone = new PluginGNSTrigger(sequenceMediator) {
                 Text = Text,
-                Name = Name,
-                Category = Category,
-                Description = Description,
                 GNSUtil = GNSUtil,
                 Timeout = Timeout
             };
+            clone.CopyMetaData(this);
+            return clone;
         }
 
         public bool Validate() {

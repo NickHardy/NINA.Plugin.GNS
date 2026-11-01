@@ -97,7 +97,7 @@ namespace NINA.Plugin.GNS.Sequencer.SequenceItem {
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
             // Add logic to run the item here
             if (this.GNSUtil == null) this.Initialize();
-            this.GNSUtil.sendMessage(0, "Session Alert: " + Text);
+            this.GNSUtil.sendMessage(0, "Session Alert: " + GNSUtility.ExpandText(Text, SymbolBroker, this));
             return Task.CompletedTask;
         }
 
@@ -106,14 +106,12 @@ namespace NINA.Plugin.GNS.Sequencer.SequenceItem {
         /// </summary>
         /// <returns></returns>
         public override object Clone() {
-            return new PluginGNSAlertItem() {
-                Icon = Icon,
-                Name = Name,
+            var clone = new PluginGNSAlertItem() {
                 Text = Text,
-                Category = Category,
-                Description = Description,
                 GNSUtil = GNSUtil
             };
+            clone.CopyMetaData(this);
+            return clone;
         }
 
         public override void Initialize() {

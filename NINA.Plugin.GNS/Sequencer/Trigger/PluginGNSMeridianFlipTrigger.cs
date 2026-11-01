@@ -46,8 +46,8 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
     ///
     /// If the item has some preconditions that should be validated, it shall also extend the IValidatable interface and add the validation logic accordingly.
     /// </summary>
-    [ExportMetadata("Name", "GNS MeridianFlip trigger")]
-    [ExportMetadata("Description", "This item will trigger the meridian flip and send a message to the GNS system.")]
+    [ExportMetadata("Name", "GNS MeridianFlip trigger (legacy)")]
+    [ExportMetadata("Description", "Legacy: GNS now follows any meridian flip trigger while a GNS session is active. This item will trigger the meridian flip and send a message to the GNS system.")]
     [ExportMetadata("Icon", "Plugin_GNS_SVG")]
     [ExportMetadata("Category", "GNS")]
     [Export(typeof(ISequenceTrigger))]
@@ -61,23 +61,25 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         protected ICameraMediator cameraMediator;
         protected IFocuserMediator focuserMediator;
         protected IMeridianFlipVMFactory meridianFlipVMFactory;
+        protected ISafetyMonitorMediator safetyMonitorMediator;
 
         private MeridianFlipTrigger MeridianFlipTrigger;
 
         [ImportingConstructor]
         public PluginGNSMeridianFlipTrigger(IProfileService profileService, ICameraMediator cameraMediator, ITelescopeMediator telescopeMediator,
-            IFocuserMediator focuserMediator, IApplicationStatusMediator applicationStatusMediator, IMeridianFlipVMFactory meridianFlipVMFactory) : base() {
-            this.MeridianFlipTrigger = new MeridianFlipTrigger(profileService, cameraMediator, telescopeMediator, focuserMediator, applicationStatusMediator, meridianFlipVMFactory);
+            IFocuserMediator focuserMediator, IApplicationStatusMediator applicationStatusMediator, IMeridianFlipVMFactory meridianFlipVMFactory, ISafetyMonitorMediator safetyMonitorMediator) : base() {
+            this.MeridianFlipTrigger = new MeridianFlipTrigger(profileService, cameraMediator, telescopeMediator, focuserMediator, applicationStatusMediator, meridianFlipVMFactory, safetyMonitorMediator);
             this.profileService = profileService;
             this.telescopeMediator = telescopeMediator;
             this.applicationStatusMediator = applicationStatusMediator;
             this.cameraMediator = cameraMediator;
             this.focuserMediator = focuserMediator;
             this.meridianFlipVMFactory = meridianFlipVMFactory;
+            this.safetyMonitorMediator = safetyMonitorMediator;
             Timeout = 900;
         }
 
-        protected PluginGNSMeridianFlipTrigger(PluginGNSMeridianFlipTrigger cloneMe) : this(cloneMe.profileService, cloneMe.cameraMediator, cloneMe.telescopeMediator, cloneMe.focuserMediator, cloneMe.applicationStatusMediator, cloneMe.meridianFlipVMFactory) {
+        protected PluginGNSMeridianFlipTrigger(PluginGNSMeridianFlipTrigger cloneMe) : this(cloneMe.profileService, cloneMe.cameraMediator, cloneMe.telescopeMediator, cloneMe.focuserMediator, cloneMe.applicationStatusMediator, cloneMe.meridianFlipVMFactory, cloneMe.safetyMonitorMediator) {
             CopyMetaData(cloneMe);
         }
 
@@ -99,7 +101,9 @@ namespace NINA.Plugin.GNS.Sequencer.Trigger {
         /// <returns></returns>
         public override Task Execute(ISequenceContainer context, IProgress<ApplicationStatus> progress, CancellationToken token) {
             var guiderSettings = profileService.ActiveProfile.GuiderSettings;
-            GNSUtil.sendMessage(Convert.ToInt32(CalculateMinimumTimeRemaining().TotalSeconds) + guiderSettings.SettleTimeout + Timeout, "Meridian flip triggered.");
+            if (!GNSUtility.SessionStopped) {
+                GNSUtil.sendMessage(Convert.ToInt32(CalculateMinimumTimeRemaining().TotalSeconds) + guiderSettings.SettleTimeout + Timeout, "Meridian flip triggered.");
+            }
             return MeridianFlipTrigger.Execute(context, progress, token);
         }
 

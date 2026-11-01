@@ -75,7 +75,7 @@ namespace NINA.Plugin.GNS.Sequencer.SequenceItem {
         public override Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
             // Add logic to run the item here
             if (this.GNSUtil == null) this.Initialize();
-            this.GNSUtil.sendMessage(Timeout >= -2 ? Timeout : 300, "Message: " + Text);
+            this.GNSUtil.sendMessage(Timeout >= -2 ? Timeout : 300, "Message: " + GNSUtility.ExpandText(Text, SymbolBroker, this));
             return Task.CompletedTask;
         }
 
@@ -84,15 +84,13 @@ namespace NINA.Plugin.GNS.Sequencer.SequenceItem {
         /// </summary>
         /// <returns></returns>
         public override object Clone() {
-            return new PluginGNSMessageItem() {
-                Icon = Icon,
-                Name = Name,
+            var clone = new PluginGNSMessageItem() {
                 Text = Text,
                 Timeout = Timeout,
-                Category = Category,
-                Description = Description,
                 GNSUtil = GNSUtil
             };
+            clone.CopyMetaData(this);
+            return clone;
         }
 
         public override void Initialize() {
